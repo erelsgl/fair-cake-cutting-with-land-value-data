@@ -10,7 +10,7 @@ var _ = require("underscore")
   , inputvalues = require("./lib/inputvalues")
   , evenpaz1d = require("./lib/evenpaz1d")
   , cakepartitions = require("./lib/cakepartitions")
-  , rungnuplot = require('./lib/rungnuplot')
+  , rungnuplot = require('./results/rungnuplot')
   ;
 
 //var NOISE_PROPORTIONS = [0,0.25,0.5,1];

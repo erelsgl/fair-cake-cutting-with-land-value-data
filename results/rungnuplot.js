@@ -1,5 +1,9 @@
 /**
- * A simple utility to run gnuplot.
+ * A simple utility to run gnuplot on a given results file.
+ * 
+ * @author Erel Segal-Halevi
+ * @since 2014-08
+ * 
  */
 
 var exec = require("child_process").exec;
