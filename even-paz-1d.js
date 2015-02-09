@@ -1,6 +1,9 @@
 /**
  * Run the Even-Paz algorithm on land value data. 
- * Produce plots of the results. 
+ * Produce plots of the results using gnuplot. 
+ * 
+ * @author Erel Segal-Halevi
+ * @since 2014-08
  */
 
 var _ = require("underscore")
@@ -15,11 +18,12 @@ var _ = require("underscore")
 
 //var NOISE_PROPORTIONS = [0,0.25,0.5,1];
 //var NOISE_PROPORTIONS = _.range(0.05, 1, 0.05);
-var NOISE_PROPORTIONS = [0.5];
+var NOISE_PROPORTIONS = [0.2,1];
 
+var AGENT_NUMS = [2,4,8,16,32,64,128,256,512,1024];
 //var AGENT_NUMS = [2,4,16,256,1024];
 //var AGENT_NUMS = [128,512,2048];
-var AGENT_NUMS = [1024];
+//var AGENT_NUMS = [1024];
 
 var EXPERIMENTS_PER_CELL = 10;
 
@@ -32,43 +36,64 @@ var FILENAME = "data/newzealand_forests_npv_4q.1d.json";
 var meanValues = inputvalues.valuesFromFile(FILENAME);
 console.log("cells in land: "+meanValues.length);
 
-for (var iAgentNum in AGENT_NUMS) {
-	var numOfAgents = AGENT_NUMS[iAgentNum];
-	console.warn(numOfAgents+" agents");
-	var resultsFileName = "results/evenpaz-"+numOfAgents+"-agents.dat";
-	var resultsFile = fs.createWriteStream(resultsFileName);
-	var identicalValueFunctions = inputvalues.noisyValuesArray(meanValues, 0, null, numOfAgents).map(ValueFunction1D.fromValues);
-	var identicalPartition = evenpaz1d(identicalValueFunctions);
+var AGGREGATE_BY_AGENT_NUM = false;
+
+if (AGGREGATE_BY_AGENT_NUM) {
+	for (var iAgentNum in AGENT_NUMS) {
+		var numOfAgents = AGENT_NUMS[iAgentNum];
+		console.log(numOfAgents+" agents");
+		var resultsFileName = "results/evenpaz-agents-"+numOfAgents+".dat";
+		var resultsFile = fs.createWriteStream(resultsFileName);
+		var identicalValueFunctions = inputvalues.noisyValuesArray(meanValues, 0, null, numOfAgents).map(ValueFunction1D.fromValues);
+		var identicalPartition = evenpaz1d(identicalValueFunctions);
+		for (var iNoise in NOISE_PROPORTIONS) {
+			var noiseProportion = NOISE_PROPORTIONS[iNoise];
+			console.log("\t"+noiseProportion+" noise");
+			calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile);
+		}
+		resultsFile.end();
+		rungnuplot("even-paz-1d.gnuplot", "filename='"+resultsFileName+"'", /*dry-run=*/true);
+	}
+} else {  // aggregate by noise 
 	for (var iNoise in NOISE_PROPORTIONS) {
 		var noiseProportion = NOISE_PROPORTIONS[iNoise];
-		console.warn("\t"+noiseProportion+" noise");
-		for (var iExperiment=0; iExperiment<EXPERIMENTS_PER_CELL; ++iExperiment) {
-			var valueFunctions = inputvalues.noisyValuesArray(meanValues, noiseProportion, null, numOfAgents).map(ValueFunction1D.fromValues);
-			var partition = evenpaz1d(valueFunctions);
-			var egalitarianGain = cakepartitions.normalizedEgalitarianValue(partition)-1;
-			if (egalitarianGain<-0.001) throw new Error("In proportional division, normalized egalitarian gain must be at least 0; got "+egalitarianGain);
-			var utilitarianGain = cakepartitions.utilitarianValue(partition)-1;
-			if (utilitarianGain<-0.001) throw new Error("In proportional division, utilitarian gain must be at least 0; got "+utilitarianGain);
-			var largestEnvy = cakepartitions.largestEnvy(partition);
-
-			
-			var identicalPartitionWithDifferentAgents = _.zip(valueFunctions,identicalPartition).map(function(pair) {
-				return new AllocatedPiece1D(pair[0], pair[1].from, pair[1].to);
-			});
-			var egalitarianGainIPWDA = cakepartitions.normalizedEgalitarianValue(identicalPartitionWithDifferentAgents)-1;
-			var utilitarianGainIPWDA = cakepartitions.utilitarianValue(identicalPartitionWithDifferentAgents)-1;
-			var largestEnvyIPWDA = cakepartitions.largestEnvy(identicalPartitionWithDifferentAgents);
-
-			var data = numOfAgents+"\t"+noiseProportion+"\t"+
-				egalitarianGain+"\t"+utilitarianGain+"\t"+largestEnvy+"\t"+
-				egalitarianGainIPWDA+"\t"+utilitarianGainIPWDA+"\t"+largestEnvyIPWDA;
-			//console.log(data);
-			resultsFile.write(data+"\n");
+		console.log(noiseProportion+" noise");
+		var resultsFileName = "results/evenpaz-noise-"+noiseProportion+".dat";
+		var resultsFile = fs.createWriteStream(resultsFileName);
+		for (var iAgentNum in AGENT_NUMS) {
+			var numOfAgents = AGENT_NUMS[iAgentNum];
+			console.log("\t"+numOfAgents+" agents");
+			var identicalValueFunctions = inputvalues.noisyValuesArray(meanValues, 0, null, numOfAgents).map(ValueFunction1D.fromValues);
+			var identicalPartition = evenpaz1d(identicalValueFunctions);
+			calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile);
 		}
+		resultsFile.end();
+		rungnuplot("even-paz-1d.gnuplot", "filename='"+resultsFileName+"'", /*dry-run=*/true);
 	}
-	resultsFile.end();
-	rungnuplot("even-paz-1d.gnuplot", "filename='"+resultsFileName+"'", /*dry-run=*/true);
 }
 
-//rungnuplot("even-paz-1d.gnuplot", "filename='results-evenpaz/agents64.dat'");
+function calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile) {
+	for (var iExperiment=0; iExperiment<EXPERIMENTS_PER_CELL; ++iExperiment) {
+		var valueFunctions = inputvalues.noisyValuesArray(meanValues, noiseProportion, null, numOfAgents).map(ValueFunction1D.fromValues);
+		var partition = evenpaz1d(valueFunctions);
+		var egalitarianGain = cakepartitions.normalizedEgalitarianValue(partition)-1;
+		if (egalitarianGain<-0.001) throw new Error("In proportional division, normalized egalitarian gain must be at least 0; got "+egalitarianGain);
+		var utilitarianGain = cakepartitions.utilitarianValue(partition)-1;
+		if (utilitarianGain<-0.001) throw new Error("In proportional division, utilitarian gain must be at least 0; got "+utilitarianGain);
+		var largestEnvy = cakepartitions.largestEnvy(partition);
 
+		
+		var identicalPartitionWithDifferentAgents = _.zip(valueFunctions,identicalPartition).map(function(pair) {
+			return new AllocatedPiece1D(pair[0], pair[1].from, pair[1].to);
+		});
+		var egalitarianGainIPWDA = cakepartitions.normalizedEgalitarianValue(identicalPartitionWithDifferentAgents)-1;
+		var utilitarianGainIPWDA = cakepartitions.utilitarianValue(identicalPartitionWithDifferentAgents)-1;
+		var largestEnvyIPWDA = cakepartitions.largestEnvy(identicalPartitionWithDifferentAgents);
+
+		var data = numOfAgents+"\t"+noiseProportion+"\t"+
+			egalitarianGain+"\t"+utilitarianGain+"\t"+largestEnvy+"\t"+
+			egalitarianGainIPWDA+"\t"+utilitarianGainIPWDA+"\t"+largestEnvyIPWDA;
+		//console.log(data);
+		resultsFile.write(data+"\n");
+	}
+}
