@@ -38,6 +38,15 @@ console.log("cells in land: "+meanValues.length);
 
 var AGGREGATE_BY_AGENT_NUM = false;
 
+
+if (!Math.log2) {
+	LOG2 = Math.log(2);
+	Math.log2 = function(x) {
+		return Math.log(x)/LOG2;
+	}
+}
+
+
 if (AGGREGATE_BY_AGENT_NUM) {
 	for (var iAgentNum in AGENT_NUMS) {
 		var numOfAgents = AGENT_NUMS[iAgentNum];
@@ -52,7 +61,7 @@ if (AGGREGATE_BY_AGENT_NUM) {
 			calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile);
 		}
 		resultsFile.end();
-		rungnuplot("even-paz-1d.gnuplot", "filename='"+resultsFileName+"'", /*dry-run=*/true);
+		rungnuplot("even-paz-1d.gnuplot", "filename='"+resultsFileName+"'; xcolumn=3; xlabel='amplitude of deviation in utilities'", /*dry-run=*/true);
 	}
 } else {  // aggregate by noise 
 	for (var iNoise in NOISE_PROPORTIONS) {
@@ -68,8 +77,9 @@ if (AGGREGATE_BY_AGENT_NUM) {
 			calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile);
 		}
 		resultsFile.end();
-		rungnuplot("even-paz-1d.gnuplot", "filename='"+resultsFileName+"'", /*dry-run=*/true);
+		rungnuplot("even-paz-1d.gnuplot", "filename='"+resultsFileName+"'; xcolumn=2; xlabel='log num of people'", /*dry-run=*/true);
 	}
+	// gnuplot --persist  -e "filename='results/evenpaz-noise-0.2.dat'; xcolumn=1" even-paz-1d.gnuplot
 }
 
 function calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile) {
@@ -90,7 +100,7 @@ function calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile) {
 		var utilitarianGainIPWDA = cakepartitions.utilitarianValue(identicalPartitionWithDifferentAgents)-1;
 		var largestEnvyIPWDA = cakepartitions.largestEnvy(identicalPartitionWithDifferentAgents);
 
-		var data = numOfAgents+"\t"+noiseProportion+"\t"+
+		var data = numOfAgents+"\t"+Math.log2(numOfAgents)+"\t"+noiseProportion+"\t"+
 			egalitarianGain+"\t"+utilitarianGain+"\t"+largestEnvy+"\t"+
 			egalitarianGainIPWDA+"\t"+utilitarianGainIPWDA+"\t"+largestEnvyIPWDA;
 		//console.log(data);
