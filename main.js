@@ -18,20 +18,20 @@ var _ = require("underscore")
 
 //var NOISE_PROPORTIONS = [0,0.25,0.5,1];
 //var NOISE_PROPORTIONS = _.range(0.05, 1, 0.05);
-var NOISE_PROPORTIONS = [0.2,1];
+var NOISE_PROPORTIONS = [0.2,0.5,1];
 
-var AGENT_NUMS = [2,4,8,16,32,64,128,256,512,1024];
+var AGENT_NUMS = [2,4,8,16,32,64,128];
 //var AGENT_NUMS = [2,4,16,256,1024];
 //var AGENT_NUMS = [128,512,2048];
 //var AGENT_NUMS = [1024];
+
+var AUTOMATICALLY_RUN_GNUPLOT = false;
 
 var EXPERIMENTS_PER_CELL = 10;
 
 var LAND_SIZE = 1000;
 var VALUE_PER_CELL = 100;
 var FILENAME = "data/newzealand_forests_npv_4q.1d.json";
-
-//var meanValues = Array.apply(null, new Array(LAND_SIZE)).map(Number.prototype.valueOf,VALUE_PER_CELL);
 
 var meanValues = inputvalues.valuesFromFile(FILENAME);
 console.log("cells in land: "+meanValues.length);
@@ -61,7 +61,7 @@ if (AGGREGATE_BY_AGENT_NUM) {
 			calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile);
 		}
 		resultsFile.end();
-		rungnuplot("even-paz-1d.gnuplot", "filename='"+resultsFileName+"'; xcolumn=3; xlabel='amplitude of deviation in utilities'", /*dry-run=*/true);
+		rungnuplot("main.gnuplot", "filename='"+resultsFileName+"'; xcolumn=3; xlabel='amplitude of deviation in utilities'", /*dry-run=*/!AUTOMATICALLY_RUN_GNUPLOT);
 	}
 } else {  // aggregate by noise 
 	for (var iNoise in NOISE_PROPORTIONS) {
@@ -77,9 +77,8 @@ if (AGGREGATE_BY_AGENT_NUM) {
 			calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile);
 		}
 		resultsFile.end();
-		rungnuplot("even-paz-1d.gnuplot", "filename='"+resultsFileName+"'; xcolumn=2; xlabel='log num of people'", /*dry-run=*/true);
+		rungnuplot("main.gnuplot", "filename='"+resultsFileName+"'; xcolumn=2; xlabel='log num of people'", /*dry-run=*/!AUTOMATICALLY_RUN_GNUPLOT);
 	}
-	// gnuplot --persist  -e "filename='results/evenpaz-noise-0.2.dat'; xcolumn=1" even-paz-1d.gnuplot
 }
 
 function calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile) {
@@ -103,7 +102,6 @@ function calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile) {
 		var data = numOfAgents+"\t"+Math.log2(numOfAgents)+"\t"+noiseProportion+"\t"+
 			egalitarianGain+"\t"+utilitarianGain+"\t"+largestEnvy+"\t"+
 			egalitarianGainIPWDA+"\t"+utilitarianGainIPWDA+"\t"+largestEnvyIPWDA;
-		//console.log(data);
 		resultsFile.write(data+"\n");
 	}
 }
