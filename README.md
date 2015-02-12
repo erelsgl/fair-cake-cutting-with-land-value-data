@@ -1,13 +1,13 @@
 fair-division
 =============
 
-Algorithms and experiments related to fair division. In particular, fair division of land.
+Algorithms and experiments related to fair division of land.
 
 Prerequisites
 -------------
-To run the program you need [Node.js](http://nodejs.org/).
+To run the experiments you need [Node.js](http://nodejs.org/).
 
-To show the plots you need [gnuplut](http://www.gnuplot.info/), but the results are given in plain text format so you can probably use other plotting software. 
+To show the plots you need [gnuplut](http://www.gnuplot.info/). The results are produced in plain text format so you can probably use other plotting software. 
 
 Installation
 ------------
@@ -32,6 +32,20 @@ On the console, you will see some gnuplot commands that you can use to plot the 
  
 Plots
 -----	
-The plots show the performance of the fair division algorithm, vs. the performance of the "objective" assessor division ("shamay").
+The plots show the performance of the fair division algorithm ("fair"), vs. the performance of the assessor division ("shamay").
 
-Currently there are three performance measures: egalitarian social welfare, utilitarian social welfare, and envy.
+Currently there are three performance measures: 
+
+* Egalitarian social welfare
+* Utilitarian social welfare
+* Maximum envy felt by a single person
+
+
+Folders
+-------
+
+* data/ - contains land-value maps and files for processing these maps. 
+* lib/  - contains the main code implementing the fair division algorithms and data structures.
+* node_modules/ - contains third-party modules automatically installed by npm install.
+* results/ - holds the result files created by the main program.
+
