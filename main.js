@@ -18,7 +18,7 @@ var _ = require("underscore")
 
 //var NOISE_PROPORTIONS = [0,0.25,0.5,1];
 //var NOISE_PROPORTIONS = _.range(0.05, 1, 0.05);
-var NOISE_PROPORTIONS = [0.2,0.5,1];
+var NOISE_PROPORTIONS = [0.2];
 
 var AGENT_NUMS = [2,4,8,16,32,64,128];
 //var AGENT_NUMS = [2,4,16,256,1024];
@@ -89,7 +89,7 @@ function calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile) {
 		if (egalitarianGain<-0.001) throw new Error("In proportional division, normalized egalitarian gain must be at least 0; got "+egalitarianGain);
 		var utilitarianGain = cakepartitions.utilitarianValue(partition)-1;
 		if (utilitarianGain<-0.001) throw new Error("In proportional division, utilitarian gain must be at least 0; got "+utilitarianGain);
-		var largestEnvy = cakepartitions.largestEnvy(partition);
+		var envy = cakepartitions.largestEnvy(partition);
 
 		
 		var identicalPartitionWithDifferentAgents = _.zip(valueFunctions,identicalPartition).map(function(pair) {
@@ -97,11 +97,11 @@ function calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile) {
 		});
 		var egalitarianGainIPWDA = cakepartitions.normalizedEgalitarianValue(identicalPartitionWithDifferentAgents)-1;
 		var utilitarianGainIPWDA = cakepartitions.utilitarianValue(identicalPartitionWithDifferentAgents)-1;
-		var largestEnvyIPWDA = cakepartitions.largestEnvy(identicalPartitionWithDifferentAgents);
+		var envyIPWDA = cakepartitions.largestEnvy(identicalPartitionWithDifferentAgents);
 
 		var data = numOfAgents+"\t"+Math.log2(numOfAgents)+"\t"+noiseProportion+"\t"+
-			egalitarianGain+"\t"+utilitarianGain+"\t"+largestEnvy+"\t"+
-			egalitarianGainIPWDA+"\t"+utilitarianGainIPWDA+"\t"+largestEnvyIPWDA;
+			egalitarianGain+"\t"+utilitarianGain+"\t"+envy+"\t"+
+			egalitarianGainIPWDA+"\t"+utilitarianGainIPWDA+"\t"+envyIPWDA;
 		resultsFile.write(data+"\n");
 	}
 }
