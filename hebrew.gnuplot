@@ -7,11 +7,11 @@ set autoscale x
 set autoscale y
 # set yrange [-1:3]
 set xlabel xlabel
-set ylabel 'gain/loss'
+set ylabel 'רמה יחסית'
 set key left top
 
 set terminal pngcairo
-set output sprintf('%s.png',filename)
+set output sprintf('%s-heb.png',filename)
 
 f1(x)=a1*x+b1
 f2(x)=a2*x+b2
@@ -27,17 +27,13 @@ fit f4(x) filename using xcolumn:7 via a4,b4
 fit f5(x) filename using xcolumn:8 via a5,b5
 fit f6(x) filename using xcolumn:9 via a6,b6
 plot \
-	filename using xcolumn:4 linecolor rgb "blue" title 'egalitarian (fair)' with points, \
+	filename using xcolumn:4 linecolor rgb "blue" title 'חלוקה הוגנת - מינימום' with points, \
 	f1(x) linecolor rgb "blue" lw 2 title '', \
-	filename using xcolumn:7 linecolor rgb "blue" title 'egalitarian (sham)' with points, \
+	filename using xcolumn:7 linecolor rgb "blue" title 'חלוקת שמאי - מינימום' with points, \
 	f4(x) linecolor rgb "blue" linetype 0 lw 4 title '', \
-	filename using xcolumn:6 linecolor rgb "red" title 'envy (fair)' with points, \
+	filename using xcolumn:6 linecolor rgb "red" title 'חלוקה הוגנת - קנאה' with points, \
 	f3(x) linecolor rgb "red" lw 2 title '', \
-	filename using xcolumn:9 linecolor rgb "red" title 'envy (sham)' with points, \
+	filename using xcolumn:9 linecolor rgb "red" title 'חלוקת שמאי - קנאה' with points, \
 	f6(x) linecolor rgb "red" linetype 0 lw 4 title '', \
-	filename using xcolumn:6 linecolor rgb "red" title 'utilitarian (fair)' with points, \
-	f2(x) linecolor rgb "red" lw 2 title '', \
-	filename using xcolumn:9 linecolor rgb "red" title 'utilitarian (sham)' with points, \
-	f5(x) linecolor rgb "red" linetype 0 lw 4 title '', \
 	0 linecolor rgb "black" title ''
  
