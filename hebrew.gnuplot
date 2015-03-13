@@ -3,7 +3,8 @@
 ## xcolumn - 1 is number of agents, 2 is log num of agents, 3 is amplitude of noise in utilities.
 ## xlabel - label for the x axis.
 
-set autoscale x
+# set autoscale x
+set xrange [3:7]
 set autoscale y
 # set yrange [-1:3]
 set xlabel xlabel
