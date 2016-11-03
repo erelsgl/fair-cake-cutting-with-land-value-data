@@ -1,11 +1,15 @@
-import numpy as np
+#!python3
 
-class PiecewiseConstantFunction1D:
+import numpy as np
+from functools import lru_cache
+
+
+class ValueFunction1D:
 	"""/**
 	* A class that represents a 1-dimensional piecewise-constant function.
 	*
 	* @author Erel Segal-Halevi
-	* @since 2014-08
+	* @since 2016-11
 	*/"""
 
 	def __init__(self, values):
@@ -23,7 +27,7 @@ class PiecewiseConstantFunction1D:
 		* @param iTo a float index.
 		* @return the sum of the array between the indices (as float).
 		*
-	    >>> a = PiecewiseConstantFunction1D([1,2,3,4])
+	    >>> a = ValueFunction1D([1,2,3,4])
 	    >>> a.sum(1,3)
 	    5.0
 	    >>> a.sum(1.5,3)
@@ -60,7 +64,7 @@ class PiecewiseConstantFunction1D:
 		* @param iFrom a float index.
 		* @param sum the required sum.
 		* @return the final index "iTo", such that sum(values,iFrom,iTo)=sum
-	    >>> a = PiecewiseConstantFunction1D([1,2,3,4])
+	    >>> a = ValueFunction1D([1,2,3,4])
 	    >>> a.invSum(1, 5)
 	    3.0
 	    >>> a.invSum(1.5, 4)
@@ -93,6 +97,40 @@ class PiecewiseConstantFunction1D:
 
 		# default: returns the largest possible "iTo":
 		return values.length
+
+	@lru_cache()
+	def getCut(self, iFrom, value):
+		"""/**
+		 * Cut query.
+		 * @param from where the piece starts.
+		 * @param value what the piece value should be.
+		 * @return where the piece should end.
+		*/"""
+		return self.invSum(iFrom, value)
+
+	@lru_cache()
+	def getValue(self, iFrom, iTo):
+		"""/**
+		 * Eval query
+		 * @param from where the piece starts.
+		 * @param to where the piece ends.
+		 * @return the piece value.
+		*/"""
+		return self.sum(iFrom, iTo)
+
+	@lru_cache()
+	def getValueOfEntireCake(self):
+		"""
+	    >>> a = ValueFunction1D([1,2,3,4])
+	    >>> a.getValueOfEntireCake()
+	    10.0
+		"""
+		return self.sum(0, self.length)
+
+	def getRelativeValue(self, iFrom, iTo):
+		return self.getValue(iFrom,iTo) / self.getValueOfEntireCake()
+
+
 
 if __name__ == '__main__':
 	import doctest
