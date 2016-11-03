@@ -1,5 +1,3 @@
-#!python3
-
 import numpy as np
 from functools import lru_cache
 
@@ -128,7 +126,7 @@ class ValueFunction1D:
 		return self.sum(0, self.length)
 
 	def getRelativeValue(self, iFrom, iTo):
-		return self.getValue(iFrom,iTo) / self.getValueOfEntireCake()
+		return self.getValue(iFrom,iTo) / self.getValuxxeOfEntireCake()
 
 
 

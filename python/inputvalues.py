@@ -1,5 +1,3 @@
-#!python3
-
 """
 /**
  * Utility functions for reading input values.
