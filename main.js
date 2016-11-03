@@ -1,7 +1,7 @@
 /**
- * Run the Even-Paz algorithm on land value data. 
- * Produce plots of the results using gnuplot. 
- * 
+ * Run the Even-Paz algorithm on land value data.
+ * Produce plots of the results using gnuplot.
+ *
  * @author Erel Segal-Halevi
  * @since 2014-08
  */
@@ -63,7 +63,7 @@ if (AGGREGATE_BY_AGENT_NUM) {
 		resultsFile.end();
 		rungnuplot("main.gnuplot", "filename='"+resultsFileName+"'; xcolumn=3; xlabel='amplitude of deviation in utilities'", /*dry-run=*/!AUTOMATICALLY_RUN_GNUPLOT);
 	}
-} else {  // aggregate by noise 
+} else {  // aggregate by noise
 	for (var iNoise in NOISE_PROPORTIONS) {
 		var noiseProportion = NOISE_PROPORTIONS[iNoise];
 		console.log(noiseProportion+" noise");
@@ -91,7 +91,7 @@ function calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile) {
 		if (utilitarianGain<-0.001) throw new Error("In proportional division, utilitarian gain must be at least 0; got "+utilitarianGain);
 		var envy = cakepartitions.largestEnvy(partition);
 
-		
+
 		var identicalPartitionWithDifferentAgents = _.zip(valueFunctions,identicalPartition).map(function(pair) {
 			return new AllocatedPiece1D(pair[0], pair[1].from, pair[1].to);
 		});

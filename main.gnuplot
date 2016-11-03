@@ -35,9 +35,8 @@ plot \
 	f3(x) linecolor rgb "red" lw 2 title '', \
 	filename using xcolumn:9 linecolor rgb "red" title 'max envy (assessor)' with points, \
 	f6(x) linecolor rgb "red" linetype 0 lw 4 title '', \
-#	filename using xcolumn:5 linecolor rgb "red" title 'utilitarian (fair div)' with points, \
-#	f2(x) linecolor rgb "red" lw 2 title '', \
-#	filename using xcolumn:8 linecolor rgb "red" title 'utilitarian (assessor)' with points, \
-#	f5(x) linecolor rgb "red" linetype 0 lw 4 title '', \
+	filename using xcolumn:5 linecolor rgb "red" title 'utilitarian (fair div)' with points, \
+	f2(x) linecolor rgb "red" lw 2 title '', \
+	filename using xcolumn:8 linecolor rgb "red" title 'utilitarian (assessor)' with points, \
+	f5(x) linecolor rgb "red" linetype 0 lw 4 title '', \
 	0 linecolor rgb "black" title ''
- 
