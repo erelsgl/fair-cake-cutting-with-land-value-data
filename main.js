@@ -1,9 +1,6 @@
 /**
- * Run the Even-Paz algorithm on land value data.
- * Produce plots of the results using gnuplot.
- *
  * @author Erel Segal-Halevi
- * @since 2014-08
+ * @since 2016-11
  */
 
 var _ = require("underscore")
@@ -47,8 +44,8 @@ if (!Math.log2) {
 }
 
 
-if (AGGREGATE_BY_AGENT_NUM) {
-	for (var iAgentNum in AGENT_NUMS) {
+if (AGGREGATE_BY_AGENT_NUM):
+	for numOfAgents in AGENT_NUMS:
 		var numOfAgents = AGENT_NUMS[iAgentNum];
 		console.log(numOfAgents+" agents");
 		var resultsFileName = "results/evenpaz-agents-"+numOfAgents+".dat";

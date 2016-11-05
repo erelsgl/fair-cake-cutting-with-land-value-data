@@ -20,15 +20,15 @@ def proportionalDivisionEvenPaz(agents):
 	@param agents - a list of Agents.
 	@return the same value functions, such that each value function is on a distinct part of the cake.
 
-	>>> Alice = Agent("Alice", ValueFunction1D([1,2,3,4]))
+	>>> Alice = Agent(name="Alice", valueFunction=ValueFunction1D([1,2,3,4]))
 	>>> proportionalDivisionEvenPaz([Alice])
 	[Alice receives [0.00,4.00]]
-	
-	>>> Bob = Agent("Bob", ValueFunction1D([40,30,20,10]))
+
+	>>> Bob = Agent(name="Bob", valueFunction=ValueFunction1D([40,30,20,10]))
 	>>> proportionalDivisionEvenPaz([Alice,Bob])
 	[Bob receives [0.00,2.00], Alice receives [2.00,4.00]]
 
-	>>> Carl = Agent("Carl", ValueFunction1D([100,100,100,100]))
+	>>> Carl = Agent(name="Carl", valueFunction=ValueFunction1D([100,100,100,100]))
 	>>> proportionalDivisionEvenPaz([Alice,Bob,Carl])
 	[Bob receives [0.00,1.30], Carl receives [1.30,2.92], Alice receives [2.92,4.00]]
 	"""
