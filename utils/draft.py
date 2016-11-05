@@ -1,5 +1,10 @@
 #!python3
 
+import matplotlib.pyplot as pyplot
+pyplot.plot([1,2,3,6])
+pyplot.ylabel('some numbers')
+pyplot.show()
+
 import sys
 print(sys.version)
 
@@ -38,8 +43,3 @@ print(m3.calc.cache_info())
 
 
 sys.exit(0)
-
-import matplotlib.pyplot as plt
-plt.plot([1,2,3,6])
-plt.ylabel('some numbers')
-plt.show()
