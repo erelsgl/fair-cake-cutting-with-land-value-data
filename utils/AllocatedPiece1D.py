@@ -48,10 +48,11 @@ class AllocatedPiece1D:
 		else:
 			return (enviedValue-enviousValue)/enviousValue
 
-	@lru_cache()
 	def getLargestEnvy(self, otherPieces):
 		"""
 		The current agent reports his largest relative envy of another agent's piece.
 		"""
-		maxEnviedPiece = max(otherPieces, lambda piece: self.getEnvy(piece))
+		def getEnvy(piece):
+			return self.getEnvy(piece)
+		maxEnviedPiece = max(otherPieces, getEnvy)
 		return self.getEnvy(maxEnviedPiece)

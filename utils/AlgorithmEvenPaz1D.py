@@ -6,6 +6,12 @@
  * @since 2016-11
  */
 """
+import numpy as np
+import operator
+
+from .AllocatedPiece1D import AllocatedPiece1D
+### with line - does not work from main
+### without line - does not work from AlgorithmAssessor1D
 
 class AlgorithmEvenPaz1D:
 
@@ -67,8 +73,6 @@ if __name__ == '__main__':
 	from Agent import Agent
 	from AllocatedPiece1D import AllocatedPiece1D
 
-	import operator
-	import numpy as np
 
 	import doctest
 	doctest.testmod()

@@ -21,7 +21,8 @@ class ValueFunction1D:
 	@staticmethod
 	def fromJson(filename):
 		with open(filename) as data_file:
-			return json.load(data_file)
+			values = json.load(data_file)
+		return ValueFunction1D(values)
 
 	def sum(self, iFrom, iTo):
 		""" /**
@@ -39,6 +40,8 @@ class ValueFunction1D:
 		6.0
 		>>> a.sum(1.5,3.25)
 		5.0
+		>>> a.sum(3,3)
+		0.0
 		>>>
 		*
 		*/ """
@@ -47,7 +50,7 @@ class ValueFunction1D:
 		if iTo<0 or iTo>self.length:
 			raise ValueError("iTo out of range: "+iTo)
 		if iTo<=iFrom:
-			return 0  # special case not covered by loop below
+			return 0.0  # special case not covered by loop below
 
 		fromFloor = int(np.floor(iFrom))
 		fromFraction = (fromFloor+1-iFrom)
@@ -112,7 +115,7 @@ class ValueFunction1D:
 		return self.invSum(iFrom, value)
 
 	@lru_cache()
-	def getValue(self, iFrom, iTo):
+	def value(self, iFrom, iTo):
 		"""/**
 		 * Eval query
 		 * @param from where the piece starts.
@@ -131,7 +134,7 @@ class ValueFunction1D:
 		return self.sum(0, self.length)
 
 	def getRelativeValue(self, iFrom, iTo):
-		return self.getValue(iFrom,iTo) / self.getValuxxeOfEntireCake()
+		return self.value(iFrom,iTo) / self.getValueOfEntireCake()
 
 	def noisyValues(self, noise_proportion, normalized_sum):
 		"""/**
@@ -162,6 +165,36 @@ class ValueFunction1D:
 			valueFunctions.append(self.noisyValues(noise_proportion, normalized_sum))
 		return valueFunctions
 
+	def partitionValues(self, cutPoints):
+		"""
+		>>> a = ValueFunction1D([1,2,3,4])
+		>>> a.partitionValues([1,2])
+		[1.0, 2.0, 7.0]
+		>>> a.partitionValues([3,3])
+		[6.0, 0.0, 4.0]
+		"""
+		values = []
+		values.append(self.value(0, cutPoints[0]))
+		for i in range(len(cutPoints)-1):
+			values.append(self.value(cutPoints[i], cutPoints[i+1]))
+		values.append(self.value(cutPoints[-1],self.length))
+		return values
+
+	def partitionBestPiece(self, cutPoints):
+		"""
+		>>> a = ValueFunction1D([1,2,3,4])
+		>>> a.partitionBestPiece([1,2])
+		2
+		>>> a.partitionBestPiece([3,3])
+		0
+		"""
+		values = self.partitionValues(cutPoints)
+		return np.argmax(values)
+
+print("class ValueFunction1D defined.") # for debug in sage notebook
+
 if __name__ == '__main__':
 	import doctest
 	doctest.testmod()
+
+	# ValueFunction1D.fromJson("abc.json")

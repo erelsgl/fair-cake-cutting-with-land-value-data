@@ -8,16 +8,17 @@
 """
 
 from functools import lru_cache
-
+import numpy as np
+import operator
 
 class AlgorithmAssessor1D:
 
-	def __init__(self, assessorValuationFunction):
+	def __init__(self, assessorValuationFunction, assessorAlgorithm):
 		"""
 		@param assessorValuationFunction a ValueFunction1D that represents the valuation according to which the assessor divides the land.
 		   """
 		self.assessorValuationFunction = assessorValuationFunction
-		self.assessorAlgorithm = AlgorithmEvenPaz1D()
+		self.assessorAlgorithm = assessorAlgorithm
 
 	def run(self, agents):
 		"""
@@ -25,7 +26,7 @@ class AlgorithmAssessor1D:
 		@param agents - a list of n Agents, each with a value-function on the same cake.
 		@return a list of n AllocatedPiece1D-s, each of which contains an Agent and an allocated part of the cake.
 
-		>>> alg = AlgorithmAssessor1D(ValueFunction1D([1,1,2,4]))
+		>>> alg = AlgorithmAssessor1D(ValueFunction1D([1,1,2,4]), AlgorithmEvenPaz1D())
 		>>> Alice = Agent(name="Alice", valueFunction=ValueFunction1D([1,2,3,4]))
 		>>> alg.run([Alice])
 		[Alice receives [0.00,4.00]]
@@ -58,8 +59,6 @@ if __name__ == '__main__':
 	from Agent import Agent
 	from AllocatedPiece1D import AllocatedPiece1D
 	from AlgorithmEvenPaz1D import AlgorithmEvenPaz1D
-	import operator
-	import numpy as np
 
 	import doctest
 	doctest.testmod()

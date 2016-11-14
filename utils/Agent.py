@@ -22,4 +22,4 @@ class Agent:
 
 	@lru_cache()
 	def evaluationOfCake(self):
-		return self.valueFunction.getValueOfCake()
+		return self.valueFunction.getValueOfEntireCake()
