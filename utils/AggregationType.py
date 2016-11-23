@@ -1,3 +1,5 @@
+#!python3
+
 from enum import Enum
 
 __author__ = 'gabib3b'

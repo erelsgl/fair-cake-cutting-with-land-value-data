@@ -1,3 +1,5 @@
+#!python3
+
 # This class works only with SageMath
 
 class ValueFunction:

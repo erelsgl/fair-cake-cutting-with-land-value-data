@@ -1,3 +1,5 @@
+#!python3
+
 """
 /**
  * Implementation of the Even-Paz proportional cake-cutting algorithm on a 1-dimensional cake.

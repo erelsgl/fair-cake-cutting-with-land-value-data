@@ -1,3 +1,5 @@
+#!python3
+
 from functools import lru_cache
 
 class Agent:

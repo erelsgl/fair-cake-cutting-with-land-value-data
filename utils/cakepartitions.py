@@ -1,3 +1,5 @@
+#!python3
+
 import math
 # from utils.ExpMeasures import ExpMeasures
 # from evenpaz.allocation import Allocation

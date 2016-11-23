@@ -1,3 +1,5 @@
+#!python3
+
 import numpy as np
 from functools import lru_cache
 import json
@@ -17,6 +19,16 @@ class ValueFunction1D:
 		"""
 		self.values = np.array(values)
 		self.length = len(values)
+
+	def __repr__(self):
+		"""
+		>>> a = ValueFunction1D([1,2,3,4])
+		>>> a
+		[1 2 3 4]
+		>>> str(a)
+		'[1 2 3 4]'
+		"""
+		return str(self.values)
 
 	@staticmethod
 	def fromJson(filename):
@@ -46,9 +58,9 @@ class ValueFunction1D:
 		*
 		*/ """
 		if iFrom<0 or iFrom>self.length:
-			raise ValueError("iFrom out of range: "+iFrom)
+			raise ValueError("iFrom out of range: "+str(iFrom))
 		if iTo<0 or iTo>self.length:
-			raise ValueError("iTo out of range: "+iTo)
+			raise ValueError("iTo out of range: "+str(iTo))
 		if iTo<=iFrom:
 			return 0.0  # special case not covered by loop below
 
@@ -83,9 +95,9 @@ class ValueFunction1D:
 		*
 		*/ """
 		if iFrom<0 or iFrom>self.length:
-			raise ValueError("iFrom out of range: "+iFrom)
+			raise ValueError("iFrom out of range: "+str(iFrom))
 		if sum<0:
-			raise ValueError("sum out of range (should be positive): "+sum)
+			raise ValueError("sum out of range (should be positive): "+str(sum))
 
 		iFrom = float(iFrom)
 		fromFloor = int(np.floor(iFrom));

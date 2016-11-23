@@ -1,3 +1,5 @@
+#!python3
+
 # From http://stackoverflow.com/a/1057534/827927
 
 from os.path import dirname, basename, isfile

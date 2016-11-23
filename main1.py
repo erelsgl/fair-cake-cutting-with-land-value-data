@@ -1,3 +1,5 @@
+#!python3
+
 def calculateSingleDatapoint(numOfAgents,noiseProportion):
 	return [123]
 
