@@ -27,16 +27,16 @@ fit f4(x) filename using xcolumn:7 via a4,b4
 fit f5(x) filename using xcolumn:8 via a5,b5
 fit f6(x) filename using xcolumn:9 via a6,b6
 plot \
-	filename using xcolumn:4 linecolor rgb "blue" title 'min val per agent (fair div)' with points, \
-	f1(x) linecolor rgb "blue" lw 2 title '', \
-	filename using xcolumn:7 linecolor rgb "blue" title 'min val per agent (assessor)' with points, \
-	f4(x) linecolor rgb "blue" linetype 0 lw 4 title '', \
-	filename using xcolumn:6 linecolor rgb "red" title 'max envy (fair div)' with points, \
-	f3(x) linecolor rgb "red" lw 2 title '', \
-	filename using xcolumn:9 linecolor rgb "red" title 'max envy (assessor)' with points, \
-	f6(x) linecolor rgb "red" linetype 0 lw 4 title '', \
-	filename using xcolumn:5 linecolor rgb "red" title 'utilitarian (fair div)' with points, \
-	f2(x) linecolor rgb "red" lw 2 title '', \
-	filename using xcolumn:8 linecolor rgb "red" title 'utilitarian (assessor)' with points, \
-	f5(x) linecolor rgb "red" linetype 0 lw 4 title '', \
+	filename using xcolumn:4 linecolor rgb "blue" title '' with points, \
+	f1(x) linecolor rgb "blue" lw 2 title 'min val per agent (fair div)', \
+	filename using xcolumn:7 linecolor rgb "blue" title '' with points, \
+	f4(x) linecolor rgb "blue" linetype 0 lw 4 title 'min val per agent (assessor)', \
+	filename using xcolumn:6 linecolor rgb "red" title '' with points, \
+	f3(x) linecolor rgb "red" lw 2 title 'max envy (fair div)', \
+	filename using xcolumn:9 linecolor rgb "red" title '' with points, \
+	f6(x) linecolor rgb "red" linetype 0 lw 4 title 'max envy (assessor)', \
+	filename using xcolumn:5 linecolor rgb "red" title '' with points, \
+	f2(x) linecolor rgb "red" lw 2 title 'utilitarian (fair div)', \
+	filename using xcolumn:8 linecolor rgb "red" title '' with points, \
+	f5(x) linecolor rgb "red" linetype 0 lw 4 title 'utilitarian (assessor)', \
 	0 linecolor rgb "black" title ''

@@ -1,6 +1,6 @@
 /**
  * Implementation of the Even-Paz proportional cake-cutting algorithm on a 1-dimensional cake.
- * 
+ *
  * @author Erel Segal-Halevi
  * @since 2014-08
  */
@@ -30,11 +30,11 @@ function proportionalDivisionEvenPazRecursive(allocations) {
 	var cutLocation = (endOfFirstPart+startOfSecondPart)/2;
 	if (isNaN(cutLocation))
 		throw new Error("cutLocation is NaN")
-	
+
 	var firstPartAllocations = [], secondPartAllocations = [];
-	for (var i=0; i<numOfAgentsInFirstPartition; ++i) 
-		firstPartAllocations.push (new AllocatedPiece1D(allocations[i].valueFunction, allocations[i].from, cutLocation));
+	for (var i=0; i<numOfAgentsInFirstPartition; ++i)
+		firstPartAllocations.push (new AllocatedPiece1D(allocations[i].valueFunction, allocations[i].iFrom, cutLocation));
 	for (var i=numOfAgentsInFirstPartition; i<numOfAgents; ++i)
-		secondPartAllocations.push(new AllocatedPiece1D(allocations[i].valueFunction, cutLocation,   allocations[i].to));
+		secondPartAllocations.push(new AllocatedPiece1D(allocations[i].valueFunction, cutLocation,   allocations[i].iTo));
 	return proportionalDivisionEvenPazRecursive(firstPartAllocations).concat(proportionalDivisionEvenPazRecursive(secondPartAllocations));
 }

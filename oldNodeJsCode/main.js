@@ -10,25 +10,25 @@ var _ = require("underscore")
   , inputvalues = require("./lib/inputvalues")
   , evenpaz1d = require("./lib/evenpaz1d")
   , cakepartitions = require("./lib/cakepartitions")
-  , rungnuplot = require('./results/rungnuplot')
+  , rungnuplot = require('./lib/rungnuplot')
   ;
 
 //var NOISE_PROPORTIONS = [0,0.25,0.5,1];
 //var NOISE_PROPORTIONS = _.range(0.05, 1, 0.05);
-var NOISE_PROPORTIONS = [0.2];
+var NOISE_PROPORTIONS = [0.5];
 
 var AGENT_NUMS = [2,4,8,16,32,64,128];
 //var AGENT_NUMS = [2,4,16,256,1024];
 //var AGENT_NUMS = [128,512,2048];
 //var AGENT_NUMS = [1024];
 
-var AUTOMATICALLY_RUN_GNUPLOT = false;
+var AUTOMATICALLY_RUN_GNUPLOT = true;
 
 var EXPERIMENTS_PER_CELL = 10;
 
 var LAND_SIZE = 1000;
 var VALUE_PER_CELL = 100;
-var FILENAME = "data/newzealand_forests_npv_4q.1d.json";
+var FILENAME = "../data/newzealand_forests_npv_4q.1d.json";
 
 var meanValues = inputvalues.valuesFromFile(FILENAME);
 console.log("cells in land: "+meanValues.length);
@@ -44,8 +44,8 @@ if (!Math.log2) {
 }
 
 
-if (AGGREGATE_BY_AGENT_NUM):
-	for numOfAgents in AGENT_NUMS:
+if (AGGREGATE_BY_AGENT_NUM) {
+	for (var numOfAgents in AGENT_NUMS) {
 		var numOfAgents = AGENT_NUMS[iAgentNum];
 		console.log(numOfAgents+" agents");
 		var resultsFileName = "results/evenpaz-agents-"+numOfAgents+".dat";
@@ -58,7 +58,8 @@ if (AGGREGATE_BY_AGENT_NUM):
 			calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile);
 		}
 		resultsFile.end();
-		rungnuplot("main.gnuplot", "filename='"+resultsFileName+"'; xcolumn=3; xlabel='amplitude of deviation in utilities'", /*dry-run=*/!AUTOMATICALLY_RUN_GNUPLOT);
+		rungnuplot("utilitarian.gnuplot", "filename='"+resultsFileName+"'; xcolumn=3; xlabel='amplitude of deviation in utilities'", /*dry-run=*/!AUTOMATICALLY_RUN_GNUPLOT);
+		rungnuplot("egalitarian.gnuplot", "filename='"+resultsFileName+"'; xcolumn=3; xlabel='amplitude of deviation in utilities'", /*dry-run=*/!AUTOMATICALLY_RUN_GNUPLOT);
 	}
 } else {  // aggregate by noise
 	for (var iNoise in NOISE_PROPORTIONS) {
@@ -74,7 +75,8 @@ if (AGGREGATE_BY_AGENT_NUM):
 			calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile);
 		}
 		resultsFile.end();
-		rungnuplot("main.gnuplot", "filename='"+resultsFileName+"'; xcolumn=2; xlabel='log num of people'", /*dry-run=*/!AUTOMATICALLY_RUN_GNUPLOT);
+    rungnuplot("utilitarian.gnuplot", "filename='"+resultsFileName+"'; xcolumn=2; xlabel='log num of people'", /*dry-run=*/!AUTOMATICALLY_RUN_GNUPLOT);
+    rungnuplot("egalitarian.gnuplot", "filename='"+resultsFileName+"'; xcolumn=2; xlabel='log num of people'", /*dry-run=*/!AUTOMATICALLY_RUN_GNUPLOT);
 	}
 }
 
@@ -90,7 +92,7 @@ function calculateSingleDatapoint(numOfAgents,noiseProportion,resultsFile) {
 
 
 		var identicalPartitionWithDifferentAgents = _.zip(valueFunctions,identicalPartition).map(function(pair) {
-			return new AllocatedPiece1D(pair[0], pair[1].from, pair[1].to);
+			return new AllocatedPiece1D(pair[0], pair[1].iFrom, pair[1].iTo);
 		});
 		var egalitarianGainIPWDA = cakepartitions.normalizedEgalitarianValue(identicalPartitionWithDifferentAgents)-1;
 		var utilitarianGainIPWDA = cakepartitions.utilitarianValue(identicalPartitionWithDifferentAgents)-1;
