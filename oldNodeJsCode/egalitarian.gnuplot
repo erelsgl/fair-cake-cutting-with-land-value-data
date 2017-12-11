@@ -6,6 +6,7 @@
 set autoscale x
 set autoscale y
 # set yrange [-1:3]
+set xrange [2:7]
 set xlabel xlabel
 set ylabel 'gain/loss'
 set key left bottom

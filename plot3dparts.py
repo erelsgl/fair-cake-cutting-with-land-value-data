@@ -60,7 +60,7 @@ def plotPositive3():
 	pyplot.xlabel('knife 1-2')
 	pyplot.ylabel('knife 2-3')
 	pyplot.suptitle("partition simplexes of all-positive cakes")
-	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/pics/positive3.png')
+	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/graphics/positive3.png')
 
 def plotNegative3():
 	fig,subplots = pyplot.subplots(3, 3, sharex='col', sharey='row')
@@ -74,7 +74,7 @@ def plotNegative3():
 	pyplot.xlabel('knife 1-2')
 	pyplot.ylabel('knife 2-3')
 	pyplot.suptitle("partition simplexes of all-negative cakes")
-	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/pics/negative3.png')
+	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/graphics/negative3.png')
 
 def plotMixed3():
 	fig,subplots = pyplot.subplots(3, 3, sharex='col', sharey='row')
@@ -88,7 +88,7 @@ def plotMixed3():
 	pyplot.xlabel('knife 1-2')
 	pyplot.ylabel('knife 2-3')
 	pyplot.suptitle("partition simplexes of mixed cakes")
-	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/pics/mixed3.png')
+	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/graphics/mixed3.png')
 
 def plotMixed3a():
 	fig,subplots = pyplot.subplots(3, 3, sharex='col', sharey='row')
@@ -102,7 +102,7 @@ def plotMixed3a():
 	pyplot.xlabel('knife 1-2')
 	pyplot.ylabel('knife 2-3')
 	pyplot.suptitle("partition simplexes of mixed cakes")
-	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/pics/mixed3a.png')
+	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/graphics/mixed3a.png')
 
 def plotNegPos():
 	fig,subplots = pyplot.subplots(3, 3, sharex='col', sharey='row')
@@ -116,7 +116,7 @@ def plotNegPos():
 	pyplot.xlabel('knife 1-2')
 	pyplot.ylabel('knife 2-3')
 	pyplot.suptitle("partition simplexes of mixed cakes")
-	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/pics/negpos.png')
+	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/graphics/negpos.png')
 
 
 def plotIndifferenceIntervals():
@@ -131,7 +131,7 @@ def plotIndifferenceIntervals():
 	pyplot.xlabel('knife 1-2')
 	pyplot.ylabel('knife 2-3')
 	pyplot.suptitle("partition simplexes of cakes with indifference-intervals")
-	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/pics/indif.png')
+	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/graphics/indif.png')
 
 def plotSwitches3():
 	fig,subplots = pyplot.subplots(3, 3, sharex='col', sharey='row')
@@ -145,12 +145,12 @@ def plotSwitches3():
 	pyplot.xlabel('knife 1-2')
 	pyplot.ylabel('knife 2-3')
 	pyplot.suptitle("Partition simplexes with different kinds of switches")
-	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/pics/switches3.png')
+	pyplot.savefig('/home/erelsgl/Dropbox/papers/Bads/graphics/switches3.png')
 
-#plotPositive3()
+plotPositive3()
 #plotNegative3()
 #plotMixed3()
-plotSwitches3()
+#plotSwitches3()
 #plotPartitionSimplex(ValueFunction1D([1,2,3]))
 #plotPartitionSimplex(ValueFunction1D([-1,2,-2,2,-2,2,-2,2,-2]))
 #plotIndifferenceIntervals()
